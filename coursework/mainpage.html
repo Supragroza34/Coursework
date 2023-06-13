@@ -1,35 +1,76 @@
 <!DOCTYPE html>
 <html>
-  <head><style> #comments { display: none !important; }</style><style>ytd-live-chat-frame#chat { display: none; }</style><style>#watch-discussion, #watch7-discussion, ytd-comments { display: none; }</style><style> #comments { display: none !important; }</style><style>ytd-live-chat-frame#chat { display: none; }</style><style>#watch-discussion, #watch7-discussion, ytd-comments { display: none; }</style>
+<head>
   <style>
-  .button {
-    padding: 15px 25px;
-    font-size: 24px;
-    text-align: center;
-    cursor: pointer;
-    outline: none;
-    color: #fff;
-    background-color: #04AA6D;
-    border: none;
-    border-radius: 15px;
-    box-shadow: 0 9px #999;
-  }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f1f1f1;
+    }
 
-  .button:hover {background-color: #3e8e41}
+    .button-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 20px;
+      justify-content: center;
+    }
 
-  .button:active {
-    background-color: #3e8e41;
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
-  }
+    .button {
+      padding: 15px 25px;
+      font-size: 24px;
+      text-align: center;
+      cursor: pointer;
+      outline: none;
+      color: #fff;
+      background-color: #04AA6D;
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 9px #999;
+    }
+
+    .button:hover {
+      background-color: #3e8e41;
+    }
+
+    .button:active {
+      background-color: #3e8e41;
+      box-shadow: 0 5px #666;
+      transform: translateY(4px);
+    }
+
+    .image-container {
+      width: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .image {
+      width: 100%;
+      height: auto;
+    }
   </style>
-    <title>Title of the document</title>
-  </head>
-  <body>
-    <button onclick="window.location.href='index.html';">
+  <title>Title of the document</title>
+</head>
+<body>
+  <div class="button-container">
+    <button class="button" onclick="window.location.href='index.html';">
       Click for signup
-    <button onclick="window.location.href='login.html';">
+    </button>
+    <div class="image-container">
+      <img class="image" src="https://www.hagerty.co.uk/wp-content/uploads/2021/06/1970s-Mini-1275-GT-ad-778x1024.jpeg" alt="Signup Image">
+    </div>
+
+    <button class="button" onclick="window.location.href='login.html';">
       Click for login
     </button>
-  </body>
+  </div>
+</body>
 </html>
+
