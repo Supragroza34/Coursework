@@ -70,6 +70,25 @@ body {
   background-color: #0056b3; /* Change the background color on hover */
 }
 
+
+#colour_slider {
+  width: 100%; /* Set the width to 100% to cover the entire slider */
+  height: 20px; /* Set the height of the slider */
+  appearance: none; /* Remove the default appearance */
+  background: linear-gradient(to right, red, yellow, green, cyan, blue, violet); /* Add a gradient background to the slider */
+}
+
+/* Style the slider thumb (indicator) */
+#colour_slider::-webkit-slider-thumb {
+  appearance: none; /* Remove the default thumb appearance */
+  width: 20px; /* Set the width of the thumb */
+  height: 20px; /* Set the height of the thumb */
+  background: #fff; /* Set the background color of the thumb to white or any color you prefer */
+  border-radius: 50%; /* Make the thumb a circle */
+  border: 2px solid #000; /* Add a border to the thumb */
+  cursor: pointer; /* Change the cursor to a pointer when hovering over the thumb */
+}
+
 #button_container {
   display: flex; /* Use flexbox to arrange buttons horizontally */
   align-items: center; /* Vertically align buttons in the container */
@@ -114,6 +133,18 @@ body {
 }
 
 
+#notification-tally {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 5px 10px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+
+
 
 
 
@@ -143,6 +174,9 @@ body {
 }
 
 #chat_input {
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: none;
   width: 80%;
   height: 40px;
   padding: 10px;

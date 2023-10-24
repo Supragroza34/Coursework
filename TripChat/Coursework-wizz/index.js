@@ -14,13 +14,46 @@ window.onload = function() {
   // Initialise Firebase
   firebase.initializeApp(firebaseConfig);
 
+
   var db = firebase.database()
   // This is where we start to use object oriented programming to devise our chat facility
 
+  var messageCount = 0;
+
+  var isSliderVisible = false;
 
   var customiseButton = document.getElementById('customise_button');
   customiseButton.addEventListener('click', function () {
-    webby.customiseColours(); // Call the customiseColours method
+    if (isSliderVisible) {
+      var colourSliderContainer = document.getElementById('colour_slider_container')
+      if (colourSliderContainer) {
+        colourSliderContainer.remove()
+      }
+    } else {
+      webby.customiseColours(); // Call the customiseColours method
+    }
+
+    isSliderVisible = !isSliderVisible;
+
+  });
+
+
+  // Add an event listener to the "Italics" button
+  var italicsButton = document.getElementById('italics_button');
+  italicsButton.addEventListener('click', function () {
+    webby.toggleItalics(); // Call the toggleItalics method when the button is clicked
+  });
+
+  // Add an event listener to the "Italics" button
+  var boldButton = document.getElementById('bold_button');
+  boldButton.addEventListener('click', function () {
+    webby.toggleBold(); // Call the toggleItalics method when the button is clicked
+  });
+
+  // Add an event listener to the "Italics" button
+  var UnderButton = document.getElementById('underline_button');
+  UnderButton.addEventListener('click', function () {
+    webby.toggleUnderline(); // Call the toggleItalics method when the button is clicked
   });
 
 
@@ -99,6 +132,9 @@ window.onload = function() {
     // If 'hasReportedFlag' is not null it means the user has reported someone in this session
     return hasReportedFlag !== null;
   }
+
+
+  
   
   
 
@@ -110,6 +146,19 @@ window.onload = function() {
 
 
   class TRIP_CHAT{
+
+    constructor() {
+      // Initialise most recent user variable
+      this.mostRecentUser = '';
+    }
+
+    updateMostRecentUser(username) {
+      this.mostRecentUser = username; // Set the most recent user
+      var mostRecentUserContainer = document.getElementById('most_recent_user');
+      if (mostRecentUserContainer) {
+        mostRecentUserContainer.textContent = `Most Recent User: ${username}`;
+      }
+    }
     // main() is used to create the main page
     main(){
       // First clear the body before adding in
@@ -123,7 +172,64 @@ window.onload = function() {
       this.create_chat()
     }
 
+    toggleItalics() {
+      // Get the chat input element by its unique ID
+      var chatInput = document.getElementById('chat_input');
     
+      // Check the current font style of the chat input
+      if (chatInput.style.fontStyle === 'italic') {
+        // If the font style is already italic,
+        // change it to normal to turn off italics
+        chatInput.style.fontStyle = 'normal';
+      } else {
+        // If the font style is not italic,
+        // change it to italic to turn on italics
+        chatInput.style.fontStyle = 'italic';
+      }
+    }
+
+
+    updateMessageCount() {
+      messageCount++; // Increment the message count
+      var messageCountContainer = document.getElementById('message_count');
+      if (messageCountContainer) {
+        messageCountContainer.textContent = `Messages: ${messageCount}`;
+      }
+    }
+
+    toggleBold() {
+      // Get the chat input element by its unique ID
+      var chatInput = document.getElementById('chat_input');
+    
+      // Check the current font style of the chat input
+      if (chatInput.style.fontWeight === 'bold') {
+        // If the font style is already italic,
+        // change it to normal to turn off italics
+        chatInput.style.fontWeight = 'normal';
+      } else {
+        // If the font style is not italic,
+        // change it to italic to turn on italics
+        chatInput.style.fontWeight = 'bold';
+      }
+    }
+
+    
+
+    toggleUnderline() {
+      // Get the chat input element by its unique ID
+      var chatInput = document.getElementById('chat_input');
+    
+      // Check the current font style of the chat input
+      if (chatInput.style.textDecoration === 'underline') {
+        // If the font style is already italic,
+        // change it to normal to turn off italics
+        chatInput.style.textDecoration = 'none';
+      } else {
+        // If the font style is not italic,
+        // change it to italic to turn on italics
+        chatInput.style.textDecoration = 'underline';
+      }
+    }
     
     
     
@@ -173,6 +279,10 @@ window.onload = function() {
 
 
 
+    
+
+
+  
 
 
     customiseColours() {
@@ -211,7 +321,20 @@ window.onload = function() {
     
     
     
+    getCurrentFontStyle(){
+      var chatInput = document.getElementById('chat_input');
+      return chatInput.style.fontStyle;
+    }
 
+    getCurrentBold (){
+      var chatInput = document.getElementById('chat_input');
+      return chatInput.style.fontWeight;
+    }
+
+    getUnderline (){
+      var chatInput = document.getElementById('chat_input');
+      return chatInput.style.textDecoration;
+    }
     
     
     
@@ -309,6 +432,11 @@ window.onload = function() {
 
       var chat_input = document.createElement('input')
       chat_input.setAttribute('id', 'chat_input')
+
+
+
+
+
       
       // Get the name of the user
       chat_input.placeholder = `${parent.get_name()} say something` //placeholder in the input container being created 
@@ -363,6 +491,9 @@ window.onload = function() {
     // Sends message/saves the message to firebase database
     send_message(message){
       var parent = this
+
+      var username = parent.get_name();
+
       // if the local storage name is null and there is no message
       // then return/don't send the message because the user
       // just deleted the localstorage themeselves
@@ -375,16 +506,27 @@ window.onload = function() {
         // Chat will be ordered by the index below which calculates by analysing how many chats already present
         var index = parseFloat(message_object.numChildren()) + 1
         db.ref('chats/' + `message_${index}`).set({ // new data entry set in form message_I where I is index
-          name: parent.get_name(), //User's name retrieved using 'get_name'
+          name: username, //User's name retrieved using 'get_name'
           message: message, //sent as a parameter to send_message function
           timestamp: new Date().getTime(), // Represents when it was sent
-          index: index //calculated index
+          index: index, //calculated index
+          fontStyle: parent.getCurrentFontStyle(),// Include the current font style
+          fontWeight: parent.getCurrentBold() ,
+          textDecoration: parent.getUnderline()
+
+
+
         })
         .then(function(){ //.then refers to what happens after success in storing message
           // After we send the chat refresh to get the new messages
-          parent.refresh_chat()
-        })
-      })
+          parent.updateMessageCount(); // Function parented and called here
+
+          parent.updateMostRecentUser(username); //parented and called within this branch
+
+
+          parent.refresh_chat();
+        });
+      });
     }
 
 
@@ -434,7 +576,6 @@ window.onload = function() {
           var message = data.message; // Extract the message content from message data
           var timestamp = data.timestamp; // Extract the timestamp from message data
 
-
         
           var message_container = document.createElement('div'); // Create a container for the message
           message_container.setAttribute('class', 'message_container'); // Set a CSS class for styling
@@ -457,15 +598,34 @@ window.onload = function() {
           var date = new Date(timestamp); // Create a Date object from the timestamp
           var formattedTimestamp = date.toLocaleTimeString(); // Format Timestamp so humans can read it
           message_timestamp.textContent = formattedTimestamp; //Display formtted timesteamp
+
+          
+
+
+
+
+          
         
           // Create a container for the message content
           var message_content_container = document.createElement('div');
           message_content_container.setAttribute('class', 'message_content_container'); //Set a CSS class
 
+          // Inside the forEach loop of the ordered messages
+          var message_content = document.createElement('p');
+          message_content.setAttribute('class', 'message_content');
+          message_content.textContent = `${message}`;
+          message_content.style.fontStyle = data.fontStyle; // Apply the font style
+
+
           //Create an element for the message content
           var message_content = document.createElement('p');
           message_content.setAttribute('class', 'message_content'); //Set a CSS class
+
           message_content.textContent = `${message}`; // Set the text content to the message content
+          message_content.style.fontWeight = data.fontWeight;
+          message_content.style.fontStyle = data.fontStyle; // Apply the font style
+          message_content.style.textDecoration = data.textDecoration;
+
 
 
           // Append the user's name and timestamp elements to the user container
@@ -482,6 +642,7 @@ window.onload = function() {
 
           // Append the message container to the chat content container
           chat_content_container.append(message_container);
+
 
 
                     // Check and remove users with banCount >= 3
@@ -522,11 +683,36 @@ window.onload = function() {
   var webby = new TRIP_CHAT()
 
 
-  // Add an event listener for the "Customize" button
+  // Add an event listener for the "Italics" button
   document.addEventListener('DOMContentLoaded', function () {
-    var customizeButton = document.getElementById('customize_button');
-    customizeButton.addEventListener('click', function () {
-      webby.customizeColors(); // Call the customizeColors method when the button is clicked
+    var italicsButton = document.getElementById('italics_button');
+    italicsButton.addEventListener('click', function () {
+      webby.toggleItalics(); // Call the toggleItalics method when the button is clicked
+    });
+  });
+
+  // Add an event listener for the "Bold" button
+  document.addEventListener('DOMContentLoaded', function () {
+    var boldButton = document.getElementById('bold_button');
+    boldButton.addEventListener('click', function () {
+      webby.toggleBold(); // Call the toggleBold method when the button is clicked
+    });
+  });
+
+  // Add an event listener for the "Bold" button
+  document.addEventListener('DOMContentLoaded', function () {
+    var UnderButton = document.getElementById('underline_button');
+    UnderButton.addEventListener('click', function () {
+      webby.toggleUnderline(); // Call the toggleBold method when the button is clicked
+    });
+  });
+
+
+  // Add an event listener for the "Customise" button
+  document.addEventListener('DOMContentLoaded', function () {
+    var customiseButton = document.getElementById('customise_button');
+    customiseButton.addEventListener('click', function () {
+      webby.customiseColors(); // Call the customiseColors method when the button is clicked
     });
   });
 
