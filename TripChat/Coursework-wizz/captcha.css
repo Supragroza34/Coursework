@@ -1,6 +1,6 @@
 #image{
 	margin-top: 10px;
-	box-shadow: 5px 5px 5px 5px gray;
+	box-shadow: 5px 5px 5px 5px white;
 	width: 60px;;
 	padding: 20px;
 	font-weight: 400;
@@ -10,12 +10,12 @@
 	text-decoration:line-through;
 	font-style: italic;
 	font-size: x-large;
-	border: red 2px solid;
+	border: white 2px solid;
 	margin-left: 10px;
 	
 }
 #user-input{
-	box-shadow: 5px 5px 5px 5px gray;
+	box-shadow: 5px 5px 5px 5px white;
 	width:auto;
 	margin-right: 10px;
 	padding: 10px;
@@ -24,14 +24,15 @@
 	border: red 0px solid;
 }
 input{
-	border:1px black solid;
+	border:1px rgb(255, 255, 255) solid;
+	color: aliceblue;
 }
 .inline{
 	display:inline-block;
 }
 #btn{
-	box-shadow: 5px 5px 5px grey;
-	color: aqua;
+	box-shadow: 5px 5px 5px white;
+	color: white;
 	margin: 10px;
 	background-color: brown;
 }
