@@ -29,10 +29,12 @@ function printmsg() {
     document.getElementById("key").innerHTML = "Matched";
 
     // Redirect to another page within the same website
-    window.location.href = "rules.html"; // Replace with the desired page URL
+    window.location.href = "Mainhub.html"; // Replace with the desired page URL
   } else {
     // CAPTCHA not matched
     document.getElementById("key").innerHTML = "Not matched";
     generate();
   }
 }
+
+
