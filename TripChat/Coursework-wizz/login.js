@@ -42,7 +42,7 @@ function loginU() {
           window.username = username;
 
           alert('User Logged In! Username: ' + username);
-          window.location.href = "index.html";
+          window.location.href = "rules.html";
         } else {
           alert('Username not found for this user.');
         }
